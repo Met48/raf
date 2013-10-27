@@ -8,9 +8,10 @@ setup(
     license='MIT',
     author='Andrew Sutton',
     author_email='me@andrewcsutton.com',
-    description='A library for reading League of Legends raf files.',
+    description='A library for reading League of Legends raf archives.',
     classifiers=[
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
@@ -19,5 +20,6 @@ setup(
     ],
     install_requires=[
         "construct>=2.5.1",
+        "six>=1.4.1",
     ],
 )

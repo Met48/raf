@@ -6,7 +6,7 @@ class LazyFile(object):
 
     def get_handle(self):
         if self._handle is None:
-            print "Open file:", self._path
+            print("Open file: %s" % self._path)
             self._handle = open(self._path, self._mode)
         return self._handle
 

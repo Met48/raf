@@ -1,4 +1,5 @@
 from construct import *
+import six
 
 def LastOf(*subcons):
     """
@@ -8,13 +9,13 @@ def LastOf(*subcons):
 
     """
     name = "seq"
-    if isinstance(subcons[0], basestring):
+    if isinstance(subcons[0], six.string_types):
         name = subcons[0]
         subcons = subcons[1:]
     return IndexingAdapter(Sequence(name, *subcons), -1)
 
 RAF_INDEX = Struct("header",
-    Magic("\xF0\x0E\xBE\x18"),
+    Magic(b"\xF0\x0E\xBE\x18"),
     ULInt32("version"),
     ULInt32("managerIndex"),
     ULInt32("offsetFileList"),
@@ -41,7 +42,7 @@ RAF_INDEX = Struct("header",
                     ULInt32("stringOffset"),
                     ULInt32("stringLength"),
                     Pointer(this._._.pathsOffset + this.stringOffset,
-                        CString("stringValue"),
+                        CString("stringValue", encoding='utf8'),
                     ),
                 ),
             ),

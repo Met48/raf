@@ -6,6 +6,8 @@ import os
 import re
 import zlib
 
+import six
+
 from .formats import RAF_INDEX
 from .util import LazyFile
 
@@ -46,7 +48,7 @@ class RAFArchive(object):
     """
 
     def __init__(self, path):
-        print "Open archive:", path
+        print("Open archive: %s" % path)
         self.path = path
         self.entries_full = {}
         self.entries_name = {}
@@ -90,7 +92,7 @@ class RAFArchive(object):
     def find_re(self, pattern):
         """Find all entries whose path matches a given pattern."""
         pattern = re.compile(pattern, re.I)
-        for k, v in self.entries_by_path().iteritems():
+        for k, v in six.iteritems(self.entries_by_path()):
             if pattern.search(k):
                 yield v
 
@@ -116,7 +118,7 @@ class RAFMaster(object):
     def _get_archive_paths(base_path):
         # Each directory name is a version number
         # A version number is 4 dot-separated integers
-        version_sorter = lambda (_dir, _): map(int, _dir.split('.'))
+        version_sorter = lambda _pair: list(map(int, _pair[0].split('.')))
         directories = os.listdir(base_path)
         directories = ((d, os.path.join(base_path, d)) for d in directories)
         directories = [(d, f) for d, f in directories if os.path.isdir(f)]
@@ -165,7 +167,7 @@ class RAFMaster(object):
         """Find the most recent versions of all entries whose path matches a given pattern."""
         # TODO: Reduce redundancy with RAFArchive
         pattern = re.compile(pattern, re.I)
-        for k, v in self.entries_full.iteritems():
+        for k, v in six.iteritems(self.entries_full):
             if pattern.search(k):
                 # Most recent version will be last
                 yield v[-1]

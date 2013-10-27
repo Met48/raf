@@ -15,6 +15,9 @@ import shlex
 import os
 import sys
 
+import six
+import six.moves
+
 from . import RAFArchive, RAFMaster
 
 
@@ -123,7 +126,7 @@ class RAFCLI(object):
 
     def repl(self):
         while True:
-            input = raw_input('> ')
+            input = six.moves.input('> ')
             input = shlex.split(input)
             command = input[0]
             if command == 'quit':
@@ -132,7 +135,7 @@ class RAFCLI(object):
                 if command in available_command:
                     method_name = self.COMMANDS[available_command]
                     method = getattr(self, method_name)
-                    arg_count = method.func_code.co_argcount
+                    arg_count = six.get_function_code(method).co_argcount
                     if len(input) != arg_count:
                         print("Wrong argument count.")
                         print("Expected %s" % arg_count)
