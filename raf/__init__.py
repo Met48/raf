@@ -89,7 +89,7 @@ class RAFArchive(object):
 
     def find_re(self, pattern):
         """Find all entries whose path matches a given pattern."""
-        pattern = re.compile(pattern)
+        pattern = re.compile(pattern, re.I)
         for k, v in self.entries_by_path().iteritems():
             if pattern.search(k):
                 yield v
@@ -164,7 +164,7 @@ class RAFMaster(object):
     def find_re(self, pattern):
         """Find the most recent versions of all entries whose path matches a given pattern."""
         # TODO: Reduce redundancy with RAFArchive
-        pattern = re.compile(pattern)
+        pattern = re.compile(pattern, re.I)
         for k, v in self.entries_full.iteritems():
             if pattern.search(k):
                 # Most recent version will be last
